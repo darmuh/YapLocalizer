@@ -45,7 +45,10 @@ public class ModLocalizedText
     /// <summary>Set localization value for a specific language</summary>
     /// <param name="language">This is the system language that will display the localization value</param>
     /// <param name="localizedText">This is the localization value that will be displayed for the language defined in the first parameter</param>
-    /// <remarks>If the game does not have a native localization for the given system language, this localization will never be displayed.</remarks>
+    /// <remarks>
+    /// If the game does not have a native localization for the given system language, this localization will never be displayed.
+    /// This method cannot be used to Update an existing language's localized text. For that, see UpdateLocalization.
+    /// </remarks>
     public ModLocalizedText SetLocalization(SystemLanguage language, string localizedText)
     {
         if(!ItemTranslations.TryAdd(language, localizedText))
@@ -54,6 +57,18 @@ public class ModLocalizedText
         }
 
         return this;
+    }
+
+    /// <summary>Update localization value for a specific language</summary>
+    /// <param name="language">This is the system language that will display the localization value</param>
+    /// <param name="localizedText">This is the localization value that will be displayed for the language defined in the first parameter</param>
+    /// <remarks>If the game does not have a native localization for the given system language, this localization will never be displayed.</remarks>
+    public void UpdateLocalization(SystemLanguage language, string localizedText)
+    {
+        if (!ItemTranslations.TryAdd(language, localizedText))
+        {
+            ItemTranslations[language] = localizedText;
+        }
     }
 
     /// <summary>Get this ModLocalizedText's localization value for a specific language</summary>

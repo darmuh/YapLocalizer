@@ -9,16 +9,19 @@ This utility mod is designed for mod developers to make adding new localizations
 - Add Localized Text or Verbal Commands easily with ``ModLocalizedText`` and ``ModLocalizedPhrase``
 
 
-### ModLocalizedText
-Simply define a key and any translations you'd like to add. Below is an example:
+### ModLocalizedText - Adds modded localized text with optional translations
+Simply define a key and any translations you'd like to add. 
 
+Example:
 ``` ModLocalizedText testLocal = new ModLocalizedText("TEST_LOCAL_KEY")
             .SetLocalization(SystemLanguage.English, "Test");
 ```
-NOTE: If you do not set any translations, the LocalizationKey will be displayed instead.  
-An Optional fallbackResult can be defined that will be displayed when localization fails.  
+- The above example would translate any localized text with key ``TEST_LOCAL_KEY`` to ``Test`` when the game language is set to english.
 
-### ModLocalizedPhrase
+*NOTE: If you do not set any translations, the LocalizationKey will be displayed instead.*  
+An Optional ``fallbackResult`` can be defined that will be displayed when localization fails.  
+
+### ModLocalizedPhrase - Adds modded voice commands with optional localizations
 Define a key and any translations you'd like to add. Constructor takes a "Default Command" for when localization fails.
 
 Example:

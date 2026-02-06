@@ -5,14 +5,14 @@ schemaVersion = "0.0.1"
 repository = "https://thunderstore.io"
 
 [package]
-namespace = "TODO: Fill in your Thunderstore team name here"
+namespace = "darmuh"
 name = "YapLocalizer"
-description = "TODO: Fill in short mod description."
-websiteUrl = "" # TODO: Add a link to your mod repository here (optional)
+description = "Utility mod for adding localized text to the game!"
+websiteUrl = "https://github.com/darmuh/YapLocalizer" # TODO: Add a link to your mod repository here (optional)
 containsNsfwContent = false
 
 [package.dependencies]
-BepInEx-BepInExPack = "5.4.2403"
+BepInEx-BepInExPack = "5.4.2304"
 
 [build]
 icon = "../../icon.png"
@@ -36,10 +36,9 @@ target = "/"
 [publish]
 # See communities at:
 # https://thunderstore.io/api/experimental/community/
-# replace _ThunderstoreGameIdentifier_ with community name in this file
-communities = [ "_ThunderstoreGameIdentifier_", ]
+communities = [ "yapyap", ]
 
 [publish.categories]
 # See categories at:
-# https://thunderstore.io/api/experimental/community/_ThunderstoreGameIdentifier_/category/
-_ThunderstoreGameIdentifier_ = [ "mods", ]
+# https://thunderstore.io/api/experimental/community/yapyap/category/
+yapyap = [ "mods", "tools", ]

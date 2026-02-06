@@ -52,6 +52,7 @@ public class ModLocalizedPhrase
     /// <remarks>
     /// NOTE: This method can NOT be used to replace an existing localization!
     /// If the game does not have a native localization for the given system language, this localization will never be used.
+    /// Typical usecase for this method is during initial setup of the ModLocalizedPhrase
     /// </remarks>
     public ModLocalizedPhrase AddLocalization(SystemLanguage language, string[] localizedPhrase)
     {
