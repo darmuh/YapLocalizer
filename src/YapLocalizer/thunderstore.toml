@@ -8,7 +8,7 @@ repository = "https://thunderstore.io"
 namespace = "darmuh"
 name = "YapLocalizer"
 description = "Utility mod for adding localized text to the game!"
-websiteUrl = "https://github.com/darmuh/YapLocalizer" # TODO: Add a link to your mod repository here (optional)
+websiteUrl = "https://github.com/darmuh/YapLocalizer"
 containsNsfwContent = false
 
 [package.dependencies]
