@@ -18,6 +18,7 @@ internal partial class Plugin : BaseUnityPlugin
         Log.LogDebug($"{Name} startup...");
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         Log.LogInfo($"Plugin {Name} is loaded!");
+        //Testing.TestText();
     }
 
     [HarmonyPatch(typeof(VoiceManager), nameof(VoiceManager.LoadLocalisationData))]

@@ -85,4 +85,17 @@ public class ModLocalizedText
             return value;
         }
     }
+
+    /// <summary>Check if this ModLocalizedText has a specific localization</summary>
+    /// <param name="language">This is the system language we are checking</param>
+    /// <param name="value">This is the system language we are checking</param>
+    public bool HasLocal(SystemLanguage language, string value)
+    {
+        if (ItemTranslations.TryGetValue(language, out string? result))
+        {
+            return result.Equals(value, System.StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        return false;
+    }
 }

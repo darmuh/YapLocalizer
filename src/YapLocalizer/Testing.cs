@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace YapLocalizer;
 
@@ -20,5 +17,9 @@ internal class Testing
 
         ModLocalizedText testNoTranslation = new ModLocalizedText("TEST2_KEY");
 
+        Plugin.Log.LogMessage(testLocal.HasLocal(SystemLanguage.English, "test"));
+        Plugin.Log.LogMessage(testLocal.HasLocal(SystemLanguage.English, "no test"));
+        Plugin.Log.LogMessage(testLocal.HasLocal(SystemLanguage.Italian, "test"));
+        Plugin.Log.LogMessage(testNoTranslation.HasLocal(SystemLanguage.English, "test"));
     }
 }
