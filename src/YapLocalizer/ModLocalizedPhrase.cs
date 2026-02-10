@@ -2,14 +2,13 @@
 using System.Linq;
 using MonoMod.Utils;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using YAPYAP;
 
 namespace YapLocalizer;
 
 public class ModLocalizedPhrase
 {
-    internal static List<ModLocalizedPhrase> ModdedLocalizedPhrases = [];
+    internal static Dictionary<string, ModLocalizedPhrase> ModLocalizedPhraseLookup = [];
 
     public string LocalizationKey = string.Empty;
     public string[] DefaultPhrase = [];
@@ -35,7 +34,7 @@ public class ModLocalizedPhrase
         foreach (string command in defaultCommands)
             ToUpper.Add(command.ToUpperInvariant());
 
-        if (ModdedLocalizedPhrases.Any(x => x.LocalizationKey == localizationKey))
+        if (ModLocalizedPhraseLookup.ContainsKey(localizationKey))
         {
             Plugin.Log.LogWarning($"WARNING: Unable to override existing modded phrase localization key - {localizationKey}");
             return;
@@ -43,7 +42,7 @@ public class ModLocalizedPhrase
 
         DefaultPhrase = [.. ToUpper];
         LocalizationKey = localizationKey;
-        ModdedLocalizedPhrases.Add(this);
+        ModLocalizedPhraseLookup.Add(LocalizationKey, this);
     }
 
     /// <summary>Add localization value for a specific language</summary>
@@ -125,11 +124,11 @@ public class ModLocalizedPhrase
             return;
         }
         
-        foreach (ModLocalizedPhrase localization in ModdedLocalizedPhrases)
+        foreach (var localization in ModLocalizedPhraseLookup)
         {
             foreach(var local in service.VoskLocalisations)
             {
-                localization.UpdateGameLocalization(local.Language);
+                localization.Value.UpdateGameLocalization(local.Language);
             }
         }
     }
@@ -204,9 +203,16 @@ public class ModLocalizedPhrase
         }
     }
 
+    /// <summary>Get ModLocalizedPhrase instance via existing key</summary>
+    /// <param name="key">This is the LocalizationKey that we are searching for</param>
+    /// <remarks>Used by SpellCustomizer to update localizations of vanilla keys</remarks>
     public static bool TryGetExistingKey(string key, out ModLocalizedPhrase phrase)
     {
-        phrase = ModdedLocalizedPhrases.FirstOrDefault(x => x.LocalizationKey == key);
-        return phrase != null;
+        if(ModLocalizedPhraseLookup.TryGetValue(key, out phrase))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

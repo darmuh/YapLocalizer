@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -37,12 +36,10 @@ internal partial class Plugin : BaseUnityPlugin
     {
         public static bool Prefix(Translator __instance, string key, ref string __result)
         {
-            if (ModLocalizedText.ModdedLocalizedTexts.Count == 0)
+            if (ModLocalizedText.ModLocalizationKeyLookup.Count == 0)
                 return true;
 
-            ModLocalizedText moddedResult = ModLocalizedText.ModdedLocalizedTexts.FirstOrDefault(x => x.LocalizationKey.Equals(key, System.StringComparison.InvariantCultureIgnoreCase));
-
-            if (moddedResult != null)
+            if (ModLocalizedText.ModLocalizationKeyLookup.TryGetValue(key, out ModLocalizedText moddedResult))
             {
                 __result = moddedResult.GetLocalized(__instance.Language);
                 return false;
@@ -61,12 +58,10 @@ internal partial class Plugin : BaseUnityPlugin
             Log.LogDebug($"TryGetVoiceCommand - Checking key {key}");
             command = []; //this will get updated when original method runs
 
-            if (ModLocalizedPhrase.ModdedLocalizedPhrases.Count == 0)
+            if (ModLocalizedPhrase.ModLocalizedPhraseLookup.Count == 0)
                 return true;
 
-            ModLocalizedPhrase moddedResult = ModLocalizedPhrase.ModdedLocalizedPhrases.FirstOrDefault(x => x.LocalizationKey.Equals(key, System.StringComparison.InvariantCultureIgnoreCase));
-
-            if (moddedResult != null)
+            if (ModLocalizedPhrase.ModLocalizedPhraseLookup.TryGetValue(key, out ModLocalizedPhrase moddedResult))
             {
                 Log.LogDebug($"Returning command for modded localized phrase with key {moddedResult.LocalizationKey}");
                 command = moddedResult.GetLocalized(__instance.CurrentVoskLocalisation.Language);
