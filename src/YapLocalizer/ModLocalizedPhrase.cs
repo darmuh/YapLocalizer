@@ -64,7 +64,6 @@ public class ModLocalizedPhrase
         if (!TranslatedPhrases.TryAdd(language, [.. toUpper]))
         {
             Plugin.Log.LogWarning($"Unable to add {language} translation for key {LocalizationKey}");
-            //AddRecognizedPhrase(localizedPhrase, language);
         }
 
         return this;
@@ -85,7 +84,7 @@ public class ModLocalizedPhrase
 
         if (!TranslatedPhrases.TryAdd(language, [.. toUpper]))
         {
-            Plugin.Log.LogMessage($"Overriding existing localized phrase ({TranslatedPhrases[language].PhraseToString()}) with new localized phrase ({localizedPhrase.PhraseToString()})");
+            Plugin.Log.LogInfo($"Overriding existing localized phrase ({TranslatedPhrases[language].PhraseToString()}) with new localized phrase ({localizedPhrase.PhraseToString()})");
             TranslatedPhrases[language] = [.. toUpper];
         }
     }
@@ -123,7 +122,9 @@ public class ModLocalizedPhrase
             Plugin.Log.LogWarning("Unable to get VoiceManager service!");
             return;
         }
-        
+
+        Plugin.Log.LogDebug($"Adding modded phrases, count: {ModLocalizedPhraseLookup.Count}");
+
         foreach (var localization in ModLocalizedPhraseLookup)
         {
             foreach(var local in service.VoskLocalisations)
@@ -138,7 +139,8 @@ public class ModLocalizedPhrase
     {
         string phraseString = phrase.PhraseToString();
         Plugin.Log.LogDebug($"AddRecognizedPhrase {LocalizationKey}");
-        if(service._voskTranslatorLookup.TryGetValue(language, out var voskTranslator))
+
+        if (service.TryGetVoskTranslator(language, out VoiceManager.VoskTranslator voskTranslator, out int LanguageIndex))
         {
             bool isDefault = service._defaultTranslator == voskTranslator;
             bool isCurrent = service._currentVoskTranslator == voskTranslator;
@@ -149,7 +151,7 @@ public class ModLocalizedPhrase
 
             if (languageCommands.TryGetValue(LocalizationKey, out string[]? value))
             {
-                Plugin.Log.LogMessage($"Replacing commands ({value.PhraseToString()}) for {LocalizationKey} in language {language} with modded phrase - {phraseString}");
+                Plugin.Log.LogInfo($"Replacing commands ({value.PhraseToString()}) for {LocalizationKey} in language {language} with modded phrase - {phraseString}");
                 languageCommands[LocalizationKey] = phrase;
             }
             else
@@ -171,8 +173,8 @@ public class ModLocalizedPhrase
             }
 
             VoiceManager.VoskTranslator updatedTranslator = new(languageCommands, [.. grammar]);
-
-            service._voskTranslatorLookup[language] = updatedTranslator;
+            service._voskLocalisations[LanguageIndex]._isOptional = false; //ensure localization is selectable now that we are adding it
+            service._voskTranslators[LanguageIndex] = updatedTranslator;
 
             if (isDefault)
                 service._defaultTranslator = updatedTranslator;

@@ -17,7 +17,7 @@ internal partial class Plugin : BaseUnityPlugin
         Log.LogDebug($"{Name} startup...");
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         Log.LogInfo($"Plugin {Name} is loaded!");
-        //Testing.TestText();
+        Log.LogDebug("Yapalizer");
     }
 
     [HarmonyPatch(typeof(VoiceManager), nameof(VoiceManager.LoadLocalisationData))]
@@ -25,7 +25,6 @@ internal partial class Plugin : BaseUnityPlugin
     {
         public static void Postfix()
         {
-            Log.LogDebug("Adding modded phrases");
             ModLocalizedPhrase.AddLocalizationsAsRecognizedPhrases();
         }
     }
@@ -55,7 +54,6 @@ internal partial class Plugin : BaseUnityPlugin
     {
         public static bool Prefix(VoiceManager __instance, string key, ref bool __result, out string[] command)
         {
-            Log.LogDebug($"TryGetVoiceCommand - Checking key {key}");
             command = []; //this will get updated when original method runs
 
             if (ModLocalizedPhrase.ModLocalizedPhraseLookup.Count == 0)

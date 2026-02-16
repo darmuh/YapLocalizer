@@ -24,6 +24,10 @@ source = "../../artifacts/bin/YapLocalizer/release/com.github.darmuh.yaplocalize
 target = "plugins/"
 
 [[build.copy]]
+source = "../../artifacts/bin/YapLocalizer/release/com.github.darmuh.yaplocalizer.xml"
+target = "plugins/"
+
+[[build.copy]]
 source = "../../CHANGELOG.md"
 target = "/"
 
